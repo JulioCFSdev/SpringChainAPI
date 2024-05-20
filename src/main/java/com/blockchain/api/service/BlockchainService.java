@@ -15,13 +15,19 @@ public class BlockchainService {
     private BlockchainRepository blockchainRepository;
     @Autowired
     private BlockRepository blockRepository;
+    @Autowired
+    private BlockchainValidationService blockchainValidationService; // Injetando o serviço de validação
 
     public Blockchain initNewBlockchain(int difficulty) {
         Blockchain blockchain = new Blockchain(difficulty);
         Block genesis = initGenesisBlock(difficulty);
-        blockchain.getBlocks().add(genesis);
-        blockRepository.save(genesis);
-        blockchainRepository.save(blockchain);
+        if (blockchainValidationService.isFirstBlockValid(blockchain)) {
+            blockchain.getBlocks().add(genesis);
+            blockRepository.save(genesis);
+            blockchainRepository.save(blockchain);
+        } else {
+            throw new IllegalStateException("Invalid genesis block.");
+        }
         return blockchain;
     }
 
@@ -32,11 +38,14 @@ public class BlockchainService {
     }
 
     public void addBlock(Blockchain blockchain, Block block) {
-        if (block != null) {
+        Block latestBlock = latestBlock(blockchain);
+        if (block != null && blockchainValidationService.isValidNewBlock(block, latestBlock)) {
             block.proofOfWork(blockchain.getDifficulty());
             blockchain.getBlocks().add(block);
             blockRepository.save(block);
             blockchainRepository.save(blockchain);
+        } else {
+            throw new IllegalStateException("Attempting to add invalid block.");
         }
     }
 
@@ -44,6 +53,5 @@ public class BlockchainService {
         return blockchain.getBlocks().get(blockchain.getBlocks().size() - 1);
     }
 }
-
 
 
