@@ -18,7 +18,7 @@ public class Blockchain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "blockchain")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Block> blocks = new ArrayList<>();
 
     private int difficulty;

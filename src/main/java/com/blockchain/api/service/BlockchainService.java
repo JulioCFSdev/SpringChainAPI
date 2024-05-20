@@ -49,6 +49,10 @@ public class BlockchainService {
         }
     }
 
+    public Blockchain findBlockchainById(long id) {
+        return blockchainRepository.findById(id);
+    }
+
     public Block latestBlock(Blockchain blockchain) {
         return blockchain.getBlocks().get(blockchain.getBlocks().size() - 1);
     }
