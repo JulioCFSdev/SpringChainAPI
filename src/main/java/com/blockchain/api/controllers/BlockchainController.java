@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/blockchain")
@@ -20,14 +21,12 @@ public class BlockchainController {
     @Autowired
     private BlockchainValidationService blockchainValidationService;
 
-    // Iniciar uma nova Blockchain
     @PostMapping("/init")
     public ResponseEntity<Blockchain> initBlockchain(@RequestParam int difficulty) {
         Blockchain blockchain = blockchainService.initNewBlockchain(difficulty);
         return new ResponseEntity<>(blockchain, HttpStatus.CREATED);
     }
 
-    // Adicionar um bloco à Blockchain
     @PostMapping("/blocks")
     public ResponseEntity<Block> addBlock(@RequestBody Block block, @RequestParam Long blockchainId) {
         Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
@@ -38,7 +37,6 @@ public class BlockchainController {
         return new ResponseEntity<>(block, HttpStatus.CREATED);
     }
 
-    // Recuperar o último bloco da Blockchain
     @GetMapping("/blocks/latest")
     public ResponseEntity<Block> getLatestBlock(@RequestParam Long blockchainId) {
         Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
@@ -49,7 +47,6 @@ public class BlockchainController {
         return new ResponseEntity<>(latestBlock, HttpStatus.OK);
     }
 
-    // Recuperar todos os blocos da Blockchain
     @GetMapping("/blocks")
     public ResponseEntity<List<Block>> getAllBlocks(@RequestParam Long blockchainId) {
         Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
@@ -60,7 +57,6 @@ public class BlockchainController {
         return new ResponseEntity<>(blocks, HttpStatus.OK);
     }
 
-    // Validar a integridade da Blockchain completa
     @GetMapping("/validate")
     public ResponseEntity<String> validateBlockchain(@RequestParam Long blockchainId) {
         Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
@@ -69,6 +65,21 @@ public class BlockchainController {
         }
         boolean isValid = blockchainValidationService.isBlockchainValid(blockchain);
         return new ResponseEntity<>(isValid ? "Blockchain is valid" : "Blockchain is invalid", HttpStatus.OK);
+    }
+
+    @GetMapping("/blocks/find")
+    public ResponseEntity<Block> getBlockByHash(@RequestParam Long blockchainId, @RequestParam String hash) {
+        Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
+        if (blockchain == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Optional<Block> block = blockchain.getBlocks().stream()
+                .filter(b -> hash.equals(b.getHash()))
+                .findFirst();
+
+        return block.map(ResponseEntity::ok)
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
 
