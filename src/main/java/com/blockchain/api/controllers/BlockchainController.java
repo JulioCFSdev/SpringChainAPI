@@ -3,6 +3,7 @@ package com.blockchain.api.controllers;
 import com.blockchain.api.domain.Block;
 import com.blockchain.api.domain.Blockchain;
 import com.blockchain.api.dtos.AddBlockRequestDTO;
+import com.blockchain.api.dtos.FindBlockRequestDTO;
 import com.blockchain.api.service.BlockchainService;
 import com.blockchain.api.service.BlockchainValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,15 +73,15 @@ public class BlockchainController {
         return new ResponseEntity<>(isValid ? "Blockchain is valid" : "Blockchain is invalid", HttpStatus.OK);
     }
 
-    @GetMapping("/blocks/find")
-    public ResponseEntity<Block> getBlockByHash(@RequestParam Long blockchainId, @RequestParam String hash) {
-        Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
+    @GetMapping("/block/find")
+    public ResponseEntity<Block> getBlockByHash(@RequestBody FindBlockRequestDTO data) {
+        Blockchain blockchain = blockchainService.findBlockchainById(data.blockchainID());
         if (blockchain == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         Optional<Block> block = blockchain.getBlocks().stream()
-                .filter(b -> hash.equals(b.getHash()))
+                .filter(b -> data.blockHash().equals(b.getHash()))
                 .findFirst();
 
         return block.map(ResponseEntity::ok)
