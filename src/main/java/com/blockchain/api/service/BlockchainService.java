@@ -23,7 +23,6 @@ public class BlockchainService {
         Block genesis = initGenesisBlock(difficulty);
         blockchain.getBlocks().add(genesis);
         if (blockchainValidationService.isFirstBlockValid(blockchain)) {
-            //blockRepository.save(genesis);
             blockchainRepository.save(blockchain);
         } else {
             throw new IllegalStateException("Invalid genesis block.");
@@ -42,7 +41,6 @@ public class BlockchainService {
         if (block != null && blockchainValidationService.isValidNewBlock(block, latestBlock)) {
             block.proofOfWork(blockchain.getDifficulty());
             blockchain.getBlocks().add(block);
-            blockRepository.save(block);
             blockchainRepository.save(blockchain);
         } else {
             throw new IllegalStateException("Attempting to add invalid block.");

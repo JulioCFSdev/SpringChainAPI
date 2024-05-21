@@ -2,6 +2,7 @@ package com.blockchain.api.controllers;
 
 import com.blockchain.api.domain.Block;
 import com.blockchain.api.domain.Blockchain;
+import com.blockchain.api.dtos.AddBlockRequestDTO;
 import com.blockchain.api.service.BlockchainService;
 import com.blockchain.api.service.BlockchainValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,20 @@ public class BlockchainController {
     }
 
     @PostMapping("/block")
-    public ResponseEntity<Block> addBlock(@RequestBody Block block, @RequestParam Long blockchainId) {
-        Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
+    public ResponseEntity<Block> addBlock(@RequestBody AddBlockRequestDTO data) throws Exception {
+        Blockchain blockchain = blockchainService.findBlockchainById(data.blockchainID());
         if (blockchain == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        blockchainService.addBlock(blockchain, block);
-        return new ResponseEntity<>(block, HttpStatus.CREATED);
+        Block PreviousBlock = blockchainService.latestBlock(blockchain);
+        int indexPreviousBlock = PreviousBlock.getIndex();
+        String hashPreviousBlock = PreviousBlock.getHash();
+        Block newBlock = new Block(indexPreviousBlock + 1, System.currentTimeMillis(), hashPreviousBlock, data.blockData());
+        blockchainService.addBlock(blockchain, newBlock);
+        return new ResponseEntity<>(newBlock, HttpStatus.CREATED);
     }
 
-    @GetMapping("/blocks/latest")
+    @GetMapping("/block/latest")
     public ResponseEntity<Block> getLatestBlock(@RequestParam Long blockchainId) {
         Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
         if (blockchain == null) {

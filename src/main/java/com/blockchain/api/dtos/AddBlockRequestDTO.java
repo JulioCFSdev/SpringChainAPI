@@ -6,6 +6,6 @@ public record AddBlockRequestDTO(
         @NotBlank
         long blockchainID,
         @NotBlank
-        String data
+        String blockData
 ) {
 }
