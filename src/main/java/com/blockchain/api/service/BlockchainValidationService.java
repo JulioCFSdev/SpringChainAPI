@@ -2,28 +2,32 @@ package com.blockchain.api.service;
 
 import com.blockchain.api.domain.Block;
 import com.blockchain.api.domain.Blockchain;
+import com.blockchain.api.exceptions.InvalidBlockHashException;
+import com.blockchain.api.exceptions.InvalidBlockIndexException;
+import com.blockchain.api.exceptions.InvalidGenesisBlockException;
+import com.blockchain.api.exceptions.InvalidPreviousHashException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BlockchainValidationService {
 
-    public boolean isFirstBlockValid(Blockchain blockchain) {
+    public boolean isFirstBlockValid(Blockchain blockchain) throws Exception {
         if (blockchain.getBlocks().isEmpty()) {
-            return false;
+            throw new InvalidGenesisBlockException();
         }
 
         Block firstBlock = blockchain.getBlocks().get(0);
         if (firstBlock.getIndex() != 0) {
-            return false;
+            throw new InvalidBlockIndexException();
         }
 
         if (firstBlock.getPreviousHash() != null) {
-            return false;
+            throw new InvalidPreviousHashException();
         }
 
         String expectedHash = UtilsService.calculateHash(firstBlock);
         if (!firstBlock.getHash().equals(expectedHash)) {
-            return false;
+            throw new InvalidBlockHashException();
         }
 
         return true;
@@ -46,7 +50,7 @@ public class BlockchainValidationService {
         return true;
     }
 
-    public boolean isBlockchainValid(Blockchain blockchain) {
+    public boolean isBlockchainValid(Blockchain blockchain) throws Exception{
         if (!isFirstBlockValid(blockchain)) {
             return false;
         }

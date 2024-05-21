@@ -18,12 +18,12 @@ public class BlockchainService {
     @Autowired
     private BlockchainValidationService blockchainValidationService; // Injetando o serviço de validação
 
-    public Blockchain initNewBlockchain(int difficulty) {
+    public Blockchain initNewBlockchain(int difficulty) throws Exception{
         Blockchain blockchain = new Blockchain(difficulty);
         Block genesis = initGenesisBlock(difficulty);
+        blockchain.getBlocks().add(genesis);
         if (blockchainValidationService.isFirstBlockValid(blockchain)) {
-            blockchain.getBlocks().add(genesis);
-            blockRepository.save(genesis);
+            //blockRepository.save(genesis);
             blockchainRepository.save(blockchain);
         } else {
             throw new IllegalStateException("Invalid genesis block.");

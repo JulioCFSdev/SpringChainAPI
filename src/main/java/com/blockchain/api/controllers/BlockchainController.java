@@ -22,12 +22,12 @@ public class BlockchainController {
     private BlockchainValidationService blockchainValidationService;
 
     @PostMapping("/init")
-    public ResponseEntity<Blockchain> initBlockchain(@RequestParam int difficulty) {
+    public ResponseEntity<Blockchain> initBlockchain(@RequestParam int difficulty) throws Exception{
         Blockchain blockchain = blockchainService.initNewBlockchain(difficulty);
         return new ResponseEntity<>(blockchain, HttpStatus.CREATED);
     }
 
-    @PostMapping("/blocks")
+    @PostMapping("/block")
     public ResponseEntity<Block> addBlock(@RequestBody Block block, @RequestParam Long blockchainId) {
         Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
         if (blockchain == null) {
@@ -58,7 +58,7 @@ public class BlockchainController {
     }
 
     @GetMapping("/validate")
-    public ResponseEntity<String> validateBlockchain(@RequestParam Long blockchainId) {
+    public ResponseEntity<String> validateBlockchain(@RequestParam Long blockchainId) throws Exception{
         Blockchain blockchain = blockchainService.findBlockchainById(blockchainId);
         if (blockchain == null) {
             return new ResponseEntity<>("Blockchain not found", HttpStatus.NOT_FOUND);
