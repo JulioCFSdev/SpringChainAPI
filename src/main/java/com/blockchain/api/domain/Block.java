@@ -2,6 +2,7 @@ package com.blockchain.api.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import com.google.gson.Gson;
 
 import java.util.Date;
 
@@ -25,11 +26,22 @@ public class Block {
     private String data;
     private int nonce;
 
+
     public Block(int index, long timestamp, String previousHash, String data) {
         this.index = index;
         this.timestamp = timestamp;
         this.previousHash = previousHash;
         this.data = data;
+        nonce = 0;
+        hash = UtilsService.calculateHash(this);
+    }
+
+    public Block(int index, long timestamp, String previousHash, Object dataObject) {
+        this.index = index;
+        this.timestamp = timestamp;
+        this.previousHash = previousHash;
+        Gson gson = new Gson();
+        this.data = gson.toJson(dataObject);
         nonce = 0;
         hash = UtilsService.calculateHash(this);
     }
