@@ -2,10 +2,15 @@ package com.blockchain.api.service;
 
 import com.blockchain.api.domain.Block;
 import com.blockchain.api.domain.Blockchain;
-import com.blockchain.api.repository.BlockRepository;
 import com.blockchain.api.repository.BlockchainRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -14,9 +19,9 @@ public class BlockchainService {
     @Autowired
     private BlockchainRepository blockchainRepository;
     @Autowired
-    private BlockRepository blockRepository;
+    private BlockchainValidationService blockchainValidationService;
     @Autowired
-    private BlockchainValidationService blockchainValidationService; // Injetando o serviço de validação
+    private ObjectMapper objectMapper;
 
     public Blockchain initNewBlockchain(int difficulty) throws Exception{
         Blockchain blockchain = new Blockchain(difficulty);
@@ -53,6 +58,30 @@ public class BlockchainService {
 
     public Block latestBlock(Blockchain blockchain) {
         return blockchain.getBlocks().get(blockchain.getBlocks().size() - 1);
+    }
+
+    public List<Block> findBlocksByDataField(String fieldName, String value, long blockchainId) {
+        Blockchain blockchain = blockchainRepository.findById(blockchainId);
+        if (blockchain == null) {
+            throw new IllegalStateException("Blockchain not found.");
+        }
+
+        List<Block> matchingBlocks = new ArrayList<>();
+        for (Block block : blockchain.getBlocks()) {
+            if (block.getIndex() == 0) {
+                continue;
+            }
+            JsonNode dataNode;
+            try {
+                dataNode = objectMapper.readTree(block.getData());
+                if (dataNode.has(fieldName) && dataNode.get(fieldName).asText().equals(value)) {
+                    matchingBlocks.add(block);
+                }
+            } catch (IOException e) {
+                System.err.println("Error parsing JSON: " + e.getMessage());
+            }
+        }
+        return matchingBlocks;
     }
 }
 
