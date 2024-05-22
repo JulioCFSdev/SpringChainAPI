@@ -4,7 +4,7 @@ import com.blockchain.api.domain.Block;
 import com.blockchain.api.domain.Blockchain;
 import com.blockchain.api.dtos.AddBlockRequestDTO;
 import com.blockchain.api.dtos.FindBlockRequestDTO;
-import com.blockchain.api.dtos.FindBlocksByTopicRequestDTO;
+import com.blockchain.api.dtos.FindBlockByTopicRequestDTO;
 import com.blockchain.api.service.BlockchainService;
 import com.blockchain.api.service.BlockchainValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +90,7 @@ public class BlockchainController {
     }
 
     @GetMapping("blocks/find/topic")
-    public ResponseEntity<List<Block>> getBlocksByTopic(@RequestBody FindBlocksByTopicRequestDTO data) {
+    public ResponseEntity<List<Block>> getBlocksByTopic(@RequestBody FindBlockByTopicRequestDTO data) {
         try {
             List<Block> blocks = blockchainService.findBlocksByDataField(
                     data.fieldName(),
@@ -102,6 +102,24 @@ public class BlockchainController {
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(blocks);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("block/latest/find/topic")
+    public ResponseEntity<Block> getLastBlocksByTopic(@RequestBody FindBlockByTopicRequestDTO data) {
+        try {
+            Block block = blockchainService.findLastBlockCreatedByDataField(
+                    data.fieldName(),
+                    data.value(),
+                    data.idBlockchain()
+            );
+
+            if (block == null) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(block);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(null);
         }
