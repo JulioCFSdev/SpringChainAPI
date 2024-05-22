@@ -4,6 +4,7 @@ import com.blockchain.api.domain.Block;
 import com.blockchain.api.domain.Blockchain;
 import com.blockchain.api.dtos.AddBlockRequestDTO;
 import com.blockchain.api.dtos.FindBlockRequestDTO;
+import com.blockchain.api.dtos.FindBlocksByTopicRequestDTO;
 import com.blockchain.api.service.BlockchainService;
 import com.blockchain.api.service.BlockchainValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,24 @@ public class BlockchainController {
 
         return block.map(ResponseEntity::ok)
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("blocks/find/topic")
+    public ResponseEntity<List<Block>> getBlocksByTopic(@RequestBody FindBlocksByTopicRequestDTO data) {
+        try {
+            List<Block> blocks = blockchainService.findBlocksByDataField(
+                    data.fieldName(),
+                    data.value(),
+                    data.idBlockchain()
+            );
+
+            if (blocks.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(blocks);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 }
 
