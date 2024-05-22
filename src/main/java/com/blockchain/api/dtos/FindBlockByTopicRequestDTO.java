@@ -2,7 +2,7 @@ package com.blockchain.api.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record FindBlocksByTopicRequestDTO(
+public record FindBlockByTopicRequestDTO(
         @NotBlank
         String fieldName,
         @NotBlank
