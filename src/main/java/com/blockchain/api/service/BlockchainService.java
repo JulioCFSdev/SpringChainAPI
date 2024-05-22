@@ -83,6 +83,30 @@ public class BlockchainService {
         }
         return matchingBlocks;
     }
+
+    public Block findLastBlockCreatedByDataField(String fieldName, String value, long blockchainId) {
+        Blockchain blockchain = blockchainRepository.findById(blockchainId);
+        if (blockchain == null) {
+            throw new IllegalStateException("Blockchain not found.");
+        }
+
+        Block matchingBlock = new Block();
+        List<Block> blocks = blockchain.getBlocks();
+        for (int i = blocks.size() - 1; i >= 0; i--) {
+            Block block = blocks.get(i);
+            JsonNode dataNode;
+            try {
+                dataNode = objectMapper.readTree(block.getData());
+                if (dataNode.has(fieldName) && dataNode.get(fieldName).asText().equals(value)) {
+                    matchingBlock = block;
+                    break;
+                }
+            } catch (IOException e) {
+                System.err.println("Error parsing JSON: " + e.getMessage());
+            }
+        }
+        return matchingBlock;
+    }
 }
 
 
