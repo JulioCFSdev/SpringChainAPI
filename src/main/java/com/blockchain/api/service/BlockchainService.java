@@ -8,9 +8,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Comparator;
 
 
 @Service
@@ -24,11 +28,14 @@ public class BlockchainService {
     private ObjectMapper objectMapper;
 
     public Blockchain initNewBlockchain(int difficulty) throws Exception{
+        long nextId = blockchainRepository.count() + 1;
         Blockchain blockchain = new Blockchain(difficulty);
         Block genesis = initGenesisBlock(difficulty);
         blockchain.getBlocks().add(genesis);
         if (blockchainValidationService.isFirstBlockValid(blockchain)) {
+            blockchain.setId(nextId);
             blockchainRepository.save(blockchain);
+            saveBlockchainToJson(blockchain, blockchain.getId());
         } else {
             throw new IllegalStateException("Invalid genesis block.");
         }
@@ -41,12 +48,13 @@ public class BlockchainService {
         return genesis;
     }
 
-    public void addBlock(Blockchain blockchain, Block block) {
+    public void addBlock(Blockchain blockchain, Block block) throws Exception {
         Block latestBlock = latestBlock(blockchain);
         if (block != null && blockchainValidationService.isValidNewBlock(block, latestBlock)) {
             block.proofOfWork(blockchain.getDifficulty());
             blockchain.getBlocks().add(block);
             blockchainRepository.save(blockchain);
+            saveBlockchainToJson(blockchain, blockchain.getId());
         } else {
             throw new IllegalStateException("Attempting to add invalid block.");
         }
@@ -106,6 +114,45 @@ public class BlockchainService {
             }
         }
         return matchingBlock;
+    }
+
+    private void saveBlockchainToJson(Blockchain blockchain, Long blockchainId) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("src/main/resources/persistence/blockchain" + blockchainId.toString() + ".json");
+        objectMapper.writeValue(file, blockchain);
+    }
+
+    public List<Blockchain> loadAllBlockchainsFromJsonToJpa() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File folder = new File("src/main/resources/persistence/");
+        File[] files = folder.listFiles((dir, name) -> name.startsWith("blockchain") && name.endsWith(".json"));
+
+        if (files != null) {
+            List<File> sortedFiles = Arrays.stream(files)
+                    .sorted(Comparator.comparingInt(file -> extractIdFromFilename(file.getName())))
+                    .toList();
+
+            List<Blockchain> blockchains = sortedFiles.stream()
+                    .map(file -> {
+                        try {
+                            return objectMapper.readValue(file, Blockchain.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            blockchainRepository.saveAll(blockchains);
+            return blockchains;
+        } else {
+            return List.of();
+        }
+    }
+
+    private int extractIdFromFilename(String filename) {
+        String numericPart = filename.replaceAll("\\D+", "");
+        return numericPart.isEmpty() ? 0 : Integer.parseInt(numericPart);
     }
 }
 
