@@ -124,5 +124,15 @@ public class BlockchainController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+    @GetMapping("block/persistence/load")
+    public ResponseEntity<List<Blockchain>> loadBlockchains() throws Exception {
+        try {
+            List<Blockchain> blockchains = blockchainService.loadAllBlockchainsFromJsonToJpa();
+            return ResponseEntity.ok(blockchains);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 }
 
