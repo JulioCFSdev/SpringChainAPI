@@ -35,7 +35,7 @@ public class BlockchainService {
         if (blockchainValidationService.isFirstBlockValid(blockchain)) {
             blockchain.setId(nextId);
             blockchainRepository.save(blockchain);
-            saveBlockchainToJson(blockchain, blockchain.getId());
+            saveBlockchainToJson(blockchain);
         } else {
             throw new IllegalStateException("Invalid genesis block.");
         }
@@ -54,7 +54,7 @@ public class BlockchainService {
             block.proofOfWork(blockchain.getDifficulty());
             blockchain.getBlocks().add(block);
             blockchainRepository.save(blockchain);
-            saveBlockchainToJson(blockchain, blockchain.getId());
+            saveBlockchainToJson(blockchain);
         } else {
             throw new IllegalStateException("Attempting to add invalid block.");
         }
@@ -116,10 +116,10 @@ public class BlockchainService {
         return matchingBlock;
     }
 
-    private void saveBlockchainToJson(Blockchain blockchain, Long blockchainId) throws IOException {
+    private void saveBlockchainToJson(Blockchain blockchain) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("src/main/resources/persistence/blockchain" + blockchainId.toString() + ".json");
-        objectMapper.writeValue(file, blockchain);
+        File file = new File("src/main/resources/persistence/blockchain" + blockchain.getId().toString() + ".json");
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, blockchain);
     }
 
     public List<Blockchain> loadAllBlockchainsFromJsonToJpa() throws IOException {
