@@ -1,0 +1,11 @@
+{
+  "id" : 5,
+  "blocks" : [ {
+    "index" : 0,
+    "timestamp" : 1716755479031,
+    "hash" : "0000468e8c9aaa551977e71097298c285d5d717639f812c8b61c95e99b9364ff",
+    "previousHash" : null,
+    "data" : "Block Gênesis"
+  } ],
+  "difficulty" : 3
+}

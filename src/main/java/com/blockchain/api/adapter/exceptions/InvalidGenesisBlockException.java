@@ -1,4 +1,4 @@
-package com.blockchain.api.exceptions;
+package com.blockchain.api.adapter.exceptions;
 
 public class InvalidGenesisBlockException extends RuntimeException{
     public InvalidGenesisBlockException() { super("Genesis Block is invalid!");}

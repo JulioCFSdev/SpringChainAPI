@@ -1,4 +1,4 @@
-package com.blockchain.api.exceptions;
+package com.blockchain.api.adapter.exceptions;
 
 public class InvalidBlockHashException extends RuntimeException{
     public InvalidBlockHashException() { super("BlockHash is Invalid!");}

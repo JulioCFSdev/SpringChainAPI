@@ -1,4 +1,4 @@
-package com.blockchain.api.dtos;
+package com.blockchain.api.adapter.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 

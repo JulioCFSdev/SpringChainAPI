@@ -1,4 +1,4 @@
-package com.blockchain.api.infra;
+package com.blockchain.api.adapter.infra;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

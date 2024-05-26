@@ -1,6 +1,6 @@
-package com.blockchain.api.service;
+package com.blockchain.api.domain.service;
 
-import com.blockchain.api.domain.Block;
+import com.blockchain.api.domain.entity.Block;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

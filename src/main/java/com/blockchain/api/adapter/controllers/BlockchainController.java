@@ -1,12 +1,12 @@
-package com.blockchain.api.controllers;
+package com.blockchain.api.adapter.controllers;
 
-import com.blockchain.api.domain.Block;
-import com.blockchain.api.domain.Blockchain;
-import com.blockchain.api.dtos.AddBlockRequestDTO;
-import com.blockchain.api.dtos.FindBlockRequestDTO;
-import com.blockchain.api.dtos.FindBlockByTopicRequestDTO;
-import com.blockchain.api.service.BlockchainService;
-import com.blockchain.api.service.BlockchainValidationService;
+import com.blockchain.api.domain.entity.Block;
+import com.blockchain.api.domain.entity.Blockchain;
+import com.blockchain.api.adapter.dtos.AddBlockRequestDTO;
+import com.blockchain.api.adapter.dtos.FindBlockRequestDTO;
+import com.blockchain.api.adapter.dtos.FindBlockByTopicRequestDTO;
+import com.blockchain.api.ports.IBlockchainService;
+import com.blockchain.api.domain.service.BlockchainValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class BlockchainController {
 
     @Autowired
-    private BlockchainService blockchainService;
+    private IBlockchainService blockchainService;
     @Autowired
     private BlockchainValidationService blockchainValidationService;
 

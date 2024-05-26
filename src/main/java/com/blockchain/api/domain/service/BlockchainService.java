@@ -1,8 +1,9 @@
-package com.blockchain.api.service;
+package com.blockchain.api.domain.service;
 
-import com.blockchain.api.domain.Block;
-import com.blockchain.api.domain.Blockchain;
-import com.blockchain.api.repository.BlockchainRepository;
+import com.blockchain.api.domain.entity.Block;
+import com.blockchain.api.domain.entity.Blockchain;
+import com.blockchain.api.adapter.repository.BlockchainRepository;
+import com.blockchain.api.ports.IBlockchainService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.Comparator;
 
 
 @Service
-public class BlockchainService {
+public class BlockchainService implements IBlockchainService {
 
     @Autowired
     private BlockchainRepository blockchainRepository;
@@ -42,7 +43,7 @@ public class BlockchainService {
         return blockchain;
     }
 
-    private Block initGenesisBlock(int difficulty) {
+    public Block initGenesisBlock(int difficulty) {
         Block genesis = new Block(0, System.currentTimeMillis(), null, "Block Gênesis");
         genesis.proofOfWork(difficulty);
         return genesis;
@@ -116,7 +117,7 @@ public class BlockchainService {
         return matchingBlock;
     }
 
-    private void saveBlockchainToJson(Blockchain blockchain) throws IOException {
+    public void saveBlockchainToJson(Blockchain blockchain) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("src/main/resources/persistence/blockchain" + blockchain.getId().toString() + ".json");
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, blockchain);
@@ -150,7 +151,7 @@ public class BlockchainService {
         }
     }
 
-    private int extractIdFromFilename(String filename) {
+    public int extractIdFromFilename(String filename) {
         String numericPart = filename.replaceAll("\\D+", "");
         return numericPart.isEmpty() ? 0 : Integer.parseInt(numericPart);
     }

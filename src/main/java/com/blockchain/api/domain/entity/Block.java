@@ -1,4 +1,4 @@
-package com.blockchain.api.domain;
+package com.blockchain.api.domain.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 
 import java.util.Date;
 
-import com.blockchain.api.service.UtilsService;
+import com.blockchain.api.domain.service.UtilsService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

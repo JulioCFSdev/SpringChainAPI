@@ -1,4 +1,4 @@
-package com.blockchain.api.domain;
+package com.blockchain.api.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,11 +1,11 @@
-package com.blockchain.api.service;
+package com.blockchain.api.domain.service;
 
-import com.blockchain.api.domain.Block;
-import com.blockchain.api.domain.Blockchain;
-import com.blockchain.api.exceptions.InvalidBlockHashException;
-import com.blockchain.api.exceptions.InvalidBlockIndexException;
-import com.blockchain.api.exceptions.InvalidGenesisBlockException;
-import com.blockchain.api.exceptions.InvalidPreviousHashException;
+import com.blockchain.api.domain.entity.Block;
+import com.blockchain.api.domain.entity.Blockchain;
+import com.blockchain.api.adapter.exceptions.InvalidBlockHashException;
+import com.blockchain.api.adapter.exceptions.InvalidBlockIndexException;
+import com.blockchain.api.adapter.exceptions.InvalidGenesisBlockException;
+import com.blockchain.api.adapter.exceptions.InvalidPreviousHashException;
 import org.springframework.stereotype.Service;
 
 @Service
