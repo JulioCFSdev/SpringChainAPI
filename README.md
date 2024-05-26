@@ -23,6 +23,7 @@ This project is a blockchain ecosystem simulator, with main functionalities for 
 4. [Contributing](#contributing)
 5. [License](#license)
 6. [Creators](#creators-)
+7. [Contributors](#contributors)
 
 ### Built With
 
