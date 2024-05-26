@@ -1,7 +1,17 @@
 # SpringChainAPI
+
 Blockchain Ecosystem simulator API in SpringBoot project
 
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+![version](https://img.shields.io/badge/version-1.0.0-blue)
+
 
 This project is a blockchain ecosystem simulator, with main functionalities for creating, validating, and storing blocks in a chain following blockchain standards. Developed in Java, using the Spring framework and the H2 in-memory database. The goal of this API is to provide an initial impression of the Blockchain environment, providing functions for data storage in blocks.
 
@@ -10,9 +20,13 @@ This project is a blockchain ecosystem simulator, with main functionalities for 
 1. [Installation](#installation)
 2. [Usage](#usage)
 3. [Endpoints](#endpoints)
-4. [Maintainers](#maintainers)
-5. [Contributing](#contributing)
-6. [License](#license)
+4. [Contributing](#contributing)
+5. [License](#license)
+6. [Creators](#creators-)
+
+### Built With
+
+[![Spring][Spring]][Spring-url]
 
 ## Architecture
 
@@ -287,3 +301,54 @@ To start the application:
         "difficulty": 3
     }
   ]
+
+### Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Creators [🔝](#SpringChainAPI)
+
+|                                                                                                                                              Author                                                                                                                                              |                                                                   Collaborator                                                                   |
+|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------:|
+|                                                                                  [<img src="https://github.com/JulioCFSdev.png?size=115" width=115><br><sub>@JulioCFSdev</sub>](https://github.com/JulioCFSdev)                                                                                  |                  [<img src="https://github.com/olucascruz.png?size=250" width=115><br><sub>@olucascruz</sub>](https://github.com/olucascruz)                   |
+
+## Contributors
+
+ <a href = "https://github.com/JulioCFSdev/SpringChainAPI/graphs/contributors">
+   <img src = "https://contrib.rocks/image?repo=JulioCFSdev/SpringChainAPI"/>
+ </a>
+
+[contributors-shield]: https://img.shields.io/github/contributors/JulioCFSdev/SpringChainAPI.svg?style=for-the-badge
+[contributors-url]: https://github.com/JulioCFSdev/SpringChainAPI/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/JulioCFSdev/SpringChainAPI.svg?style=for-the-badge
+[forks-url]: https://github.com/JulioCFSdev/SpringChainAPI/network/members
+[stars-shield]: https://img.shields.io/github/stars/JulioCFSdev/SpringChainAPI.svg?style=for-the-badge
+[stars-url]: https://github.com/JulioCFSdev/SpringChainAPI/stargazers
+[issues-shield]: https://img.shields.io/github/issues/JulioCFSdev/SpringChainAPI.svg?style=for-the-badge
+[issues-url]: https://github.com/JulioCFSdev/SpringChainAPI/issues
+[license-shield]: https://img.shields.io/github/license/JulioCFSdev/SpringChainAPI.svg?style=for-the-badge
+[license-url]: https://github.com/JulioCFSdev/SpringChainAPI/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/juliocesarferreiradesouza/
+[Spring]: https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white
+[Spring-url]: https://spring.io
+[SpringBoot]: https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white
+[SpringBoot-url]: https://spring.io
