@@ -58,7 +58,7 @@ To start the application:
 - **Initialization Blockchain :** `/api/blockchain/init`
 - **Add Block :** `/api/blockchain/block`
 - **Get Latest Block :** `/api/blockchain/block/latest`
-- **Get Blocks by Blockchain :** `Get Blocks by Blockchain`
+- **Get Blocks by Blockchain :** `/api/blockchain/blocks`
 - **Find Block by Hash :** `/api/blockchain/block/find`
 - **Find Blocks by Topic :** `/api/blockchain/block/find/topic`
 - **Find Latest Block by Topic :** `/api/blockchain/block/latest/find/topic`
@@ -118,7 +118,7 @@ To start the application:
 - **Method:** `GET`
 - **Description:** Returns the latest block added to the specified blockchain.
 - **Parameters:** `idBlockchain` (long)
-- **Example Request** `GET /api/blockchain/block/latest?idBlockchain=1`
+- **Example Request** `GET /api/blockchain/block/latest?blockchainId=1`
 - **Example Response**
   ````json
   {
@@ -134,7 +134,7 @@ To start the application:
 - **Method:** `GET`
 - **Description:** Returns all blocks from the specified blockchain.
 - **Parameters:** `idBlockchain` (long)
-- **Example Request** `GET /api/blockchain/blocks?idBlockchain=1`
+- **Example Request** `GET /api/blockchain/blocks?blockchainId=1`
 - **Example Response**
   ````json
   [
