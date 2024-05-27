@@ -34,7 +34,7 @@ This project is a blockchain ecosystem simulator, with main functionalities for 
 The API was developed using the Hexagonal Architecture, also known as Ports and Adapters Architecture. This approach 
 was chosen to promote a clear separation between business logic and infrastructure concerns, thereby increasing flexibility, testability, and code maintainability.
 
-![Hexagonal Architecture](src/main/resources/img/ArquiteturadoTrustVote.png)
+![Hexagonal Architecture](src/main/resources/img/SpringChainAPIArchitecture.png)
 
 ## Installation
 
