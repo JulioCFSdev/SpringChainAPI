@@ -4,7 +4,7 @@ import com.blockchain.api.adapter.exceptions.InvalidBlockHashException;
 import com.blockchain.api.adapter.exceptions.InvalidBlockIndexException;
 import com.blockchain.api.adapter.exceptions.InvalidGenesisBlockException;
 import com.blockchain.api.adapter.exceptions.InvalidPreviousHashException;
-import com.blockchain.api.exceptions.*;
+import com.blockchain.api.adapter.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
